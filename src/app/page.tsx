@@ -17,18 +17,19 @@ const colorMap: Record<string, { bg: string; text: string }> = {
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section - clean white, no dark background gimmicks */}
+
+      {/* Hero Section */}
       <section className="px-6 pt-16 pb-20 lg:pt-24 lg:pb-28 bg-white border-b border-slate-100">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-2xl mx-auto text-center">
           <p className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-4">
             For parents of kids ages 10–12
           </p>
 
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-5 leading-tight tracking-tight">
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
             Teach life lessons at the perfect moment
           </h1>
 
-          <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg text-slate-500 mb-10 leading-relaxed">
             150+ curated lessons with real-world teachable moments. Find the right time to teach your kids what matters most.
           </p>
 
@@ -52,7 +53,7 @@ export default function Home() {
 
       {/* Quick stats row */}
       <section className="bg-slate-50 border-b border-slate-100">
-        <div className="max-w-3xl mx-auto px-6 py-8 grid grid-cols-3 gap-6 text-center">
+        <div className="max-w-2xl mx-auto px-6 py-10 grid grid-cols-3 gap-6 text-center">
           <div>
             <p className="text-2xl font-extrabold text-slate-900">150+</p>
             <p className="text-xs text-slate-500 font-medium mt-1">Curated Lessons</p>
@@ -68,47 +69,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="max-w-3xl mx-auto px-6 py-16">
-        <h2 className="text-2xl font-bold text-slate-900 text-center mb-10">
-          How it works
-        </h2>
+      {/* Spacer */}
+      <div className="h-8 bg-slate-50"></div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              num: "1",
-              title: "Browse Lessons",
-              desc: "Explore lessons across 10 categories — from character to financial literacy.",
-              color: "bg-blue-600",
-            },
-            {
-              num: "2",
-              title: "Choose What Matters",
-              desc: "Pick lessons that match your family's values and your child's personality.",
-              color: "bg-blue-600",
-            },
-            {
-              num: "3",
-              title: "Find the Moment",
-              desc: "Use the teachable moment to create a real experience that makes it stick.",
-              color: "bg-blue-600",
-            },
-          ].map((item) => (
-            <div key={item.num} className="text-center">
-              <div className={`${item.color} w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4`}>
-                <span className="text-white font-bold text-sm">{item.num}</span>
+      {/* How It Works */}
+      <section className="bg-white border-t border-b border-slate-100">
+        <div className="max-w-2xl mx-auto px-6 py-14 text-center">
+          <h2 className="text-2xl font-bold text-slate-900 mb-10">
+            How it works
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                num: "1",
+                title: "Browse Lessons",
+                desc: "Explore lessons across 10 categories — from character to financial literacy.",
+              },
+              {
+                num: "2",
+                title: "Choose What Matters",
+                desc: "Pick lessons that match your family\u2019s values and your child\u2019s personality.",
+              },
+              {
+                num: "3",
+                title: "Find the Moment",
+                desc: "Use the teachable moment to create a real experience that makes it stick.",
+              },
+            ].map((item) => (
+              <div key={item.num} className="text-center">
+                <div className="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold text-sm">{item.num}</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
               </div>
-              <h3 className="text-base font-bold text-slate-900 mb-2">{item.title}</h3>
-              <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* Spacer */}
+      <div className="h-8 bg-slate-50"></div>
+
       {/* Categories Grid */}
-      <section className="bg-white border-t border-slate-100">
-        <div className="max-w-3xl mx-auto px-6 py-16">
+      <section className="bg-white border-t border-b border-slate-100">
+        <div className="max-w-2xl mx-auto px-6 py-14">
           <h2 className="text-2xl font-bold text-slate-900 text-center mb-10">
             Explore by category
           </h2>
@@ -122,7 +128,7 @@ export default function Home() {
                   href={`/lessons?category=${category.slug}`}
                   className="group"
                 >
-                  <div className="card-hover rounded-lg p-5 border border-slate-200 shadow-sm h-full cursor-pointer bg-white hover:shadow-md hover:border-slate-300">
+                  <div className="rounded-lg p-5 border border-slate-200 shadow-sm h-full cursor-pointer bg-white hover:shadow-md hover:border-slate-300 transition-all">
                     <div className="flex items-center gap-3 mb-3">
                       <div className={`${colors.bg} w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0`}>
                         {category.icon}
@@ -147,9 +153,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Spacer */}
+      <div className="h-8 bg-slate-50"></div>
+
       {/* CTA */}
-      <section className="border-t border-slate-100 px-6 py-16">
-        <div className="max-w-lg mx-auto text-center">
+      <section className="bg-white border-t border-b border-slate-100 px-6 py-14">
+        <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">
             Ready to get started?
           </h2>
@@ -167,9 +176,9 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-100 px-6 py-6">
-        <div className="max-w-5xl mx-auto text-center text-xs text-slate-400">
-          <p>© 2026 Life Lessons</p>
+      <footer className="bg-slate-50 px-6 py-6">
+        <div className="max-w-2xl mx-auto text-center text-xs text-slate-400">
+          <p>&copy; 2026 Life Lessons</p>
         </div>
       </footer>
     </div>
