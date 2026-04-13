@@ -40,80 +40,55 @@ function LessonsContent() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <div className="bg-white border-b border-slate-100 px-6 py-10">
-        <div className="max-w-6xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center text-slate-500 hover:text-slate-900 text-sm font-medium mb-6 transition-colors"
-          >
-            <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-            Back Home
-          </Link>
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight mb-2">
+      <div className="bg-white border-b border-slate-200 px-6 py-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Lesson Library
           </h1>
-          <p className="text-slate-500 text-lg">
+          <p className="text-slate-500">
             Browse and search {allLessons.length} lessons across {categories.length} categories
           </p>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      {/* Search + Filters */}
+      <div className="max-w-4xl mx-auto px-6 py-6">
         {/* Search Bar */}
-        <div className="mb-6">
+        <div className="mb-5">
           <div className="relative">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             <input
               type="text"
-              placeholder="Search by name, description, or teachable moment..."
+              placeholder="Search lessons..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 text-base transition-all"
+              className="w-full pl-12 pr-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 shadow-sm"
             />
           </div>
         </div>
 
-        {/* Category Filters */}
-        <div className="mb-8">
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedCategory("")}
-              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
-                !selectedCategory
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              All
-            </button>
+        {/* Category Filter - dropdown style */}
+        <div className="mb-5">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full sm:w-auto px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-700 font-medium shadow-sm cursor-pointer"
+          >
+            <option value="">All Categories</option>
             {categories.map((category) => (
-              <button
-                key={category.slug}
-                onClick={() =>
-                  setSelectedCategory(
-                    selectedCategory === category.slug ? "" : category.slug
-                  )
-                }
-                className={`px-4 py-2 rounded-lg font-medium text-sm transition-all flex items-center gap-1.5 ${
-                  selectedCategory === category.slug
-                    ? "bg-slate-900 text-white shadow-sm"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
-                }`}
-              >
-                <span className="text-base">{category.icon}</span>
-                {category.name}
-              </button>
+              <option key={category.slug} value={category.slug}>
+                {category.name} ({category.lessons.length})
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
         {/* Results Count */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-5 flex items-center justify-between">
           <p className="text-sm text-slate-500">
-            Showing <span className="font-semibold text-slate-700">{filteredLessons.length}</span> of {allLessons.length} lessons
+            Showing <span className="font-semibold text-slate-900">{filteredLessons.length}</span> of {allLessons.length} lessons
           </p>
           {(searchQuery || selectedCategory) && (
             <button
@@ -121,7 +96,7 @@ function LessonsContent() {
                 setSearchQuery("");
                 setSelectedCategory("");
               }}
-              className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
             >
               Clear filters
             </button>
@@ -130,7 +105,7 @@ function LessonsContent() {
 
         {/* Lessons Grid */}
         {filteredLessons.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredLessons.map((lesson) => {
               const categoryInfo = getCategoryInfo(lesson.categorySlug);
               const colors = colorMap[categoryInfo?.color || "blue"] || colorMap.blue;
@@ -140,9 +115,9 @@ function LessonsContent() {
                   href={`/lessons/${lesson.id}`}
                   className="group"
                 >
-                  <div className="card-hover bg-white rounded-xl p-6 border border-slate-100 h-full cursor-pointer">
+                  <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all h-full">
                     {/* Category Badge */}
-                    <div className={`${colors.bg} ${colors.text} inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 mb-4`}>
+                    <div className={`${colors.bg} ${colors.text} inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 mb-3`}>
                       <span className="text-sm">{categoryInfo?.icon}</span>
                       <span className="text-xs font-semibold">
                         {lesson.category}
@@ -150,12 +125,12 @@ function LessonsContent() {
                     </div>
 
                     {/* Lesson Name */}
-                    <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors leading-snug">
+                    <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
                       {lesson.name}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">
+                    <p className="text-sm text-slate-500 leading-relaxed line-clamp-2">
                       {lesson.description}
                     </p>
                   </div>
@@ -164,18 +139,15 @@ function LessonsContent() {
             })}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-            </div>
+          <div className="text-center py-16 bg-white rounded-lg border border-slate-200">
             <p className="text-slate-600 font-medium mb-2">No lessons found</p>
-            <p className="text-slate-400 text-sm mb-6">Try adjusting your search or filters</p>
+            <p className="text-slate-400 text-sm mb-4">Try adjusting your search or filters</p>
             <button
               onClick={() => {
                 setSearchQuery("");
                 setSelectedCategory("");
               }}
-              className="text-blue-600 hover:text-blue-800 font-semibold text-sm transition-colors"
+              className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
             >
               Clear all filters
             </button>
@@ -191,7 +163,7 @@ export default function LessonsPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-slate-200 border-t-slate-600 rounded-full animate-spin"></div>
+          <p className="text-slate-500">Loading...</p>
         </div>
       }
     >
