@@ -39,11 +39,20 @@ function LessonsContent() {
     return categories.find((cat) => cat.slug === slug);
   };
 
+  // Group filtered lessons by category
+  const groupedLessons: Record<string, typeof filteredLessons> = {};
+  filteredLessons.forEach((lesson) => {
+    if (!groupedLessons[lesson.categorySlug]) {
+      groupedLessons[lesson.categorySlug] = [];
+    }
+    groupedLessons[lesson.categorySlug].push(lesson);
+  });
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
       <div className="bg-white border-b border-slate-200 px-6 py-8">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-2xl mx-auto text-center">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Lesson Library
           </h1>
@@ -54,9 +63,9 @@ function LessonsContent() {
       </div>
 
       {/* Search + Filters */}
-      <div className="max-w-4xl mx-auto px-6 py-6">
+      <div className="max-w-2xl mx-auto px-6 pt-8 pb-4">
         {/* Search Bar */}
-        <div className="mb-5">
+        <div className="mb-4">
           <div className="relative">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             <input
@@ -69,12 +78,12 @@ function LessonsContent() {
           </div>
         </div>
 
-        {/* Category Filter - dropdown style */}
-        <div className="mb-5">
+        {/* Category Filter + Results Count */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-2">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full sm:w-auto px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-700 font-medium shadow-sm cursor-pointer"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 font-medium shadow-sm cursor-pointer text-sm"
           >
             <option value="">All Categories</option>
             {categories.map((category) => (
@@ -83,58 +92,66 @@ function LessonsContent() {
               </option>
             ))}
           </select>
-        </div>
 
-        {/* Results Count */}
-        <div className="mb-5 flex items-center justify-between">
-          <p className="text-sm text-slate-500">
-            Showing <span className="font-semibold text-slate-900">{filteredLessons.length}</span> of {allLessons.length} lessons
-          </p>
-          {(searchQuery || selectedCategory) && (
-            <button
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedCategory("");
-              }}
-              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
-            >
-              Clear filters
-            </button>
-          )}
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-slate-500">
+              <span className="font-semibold text-slate-900">{filteredLessons.length}</span> lessons
+            </p>
+            {(searchQuery || selectedCategory) && (
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedCategory("");
+                }}
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+              >
+                Clear
+              </button>
+            )}
+          </div>
         </div>
+      </div>
 
-        {/* Lessons Grid */}
+      {/* Lessons grouped by category */}
+      <div className="max-w-2xl mx-auto px-6 pb-12">
         {filteredLessons.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredLessons.map((lesson) => {
-              const categoryInfo = getCategoryInfo(lesson.categorySlug);
+          <div className="space-y-10">
+            {Object.entries(groupedLessons).map(([categorySlug, lessons]) => {
+              const categoryInfo = getCategoryInfo(categorySlug);
               const colors = colorMap[categoryInfo?.color || "blue"] || colorMap.blue;
               return (
-                <Link
-                  key={lesson.id}
-                  href={`/lessons/${lesson.id}`}
-                  className="group"
-                >
-                  <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all h-full">
-                    {/* Category Badge */}
-                    <div className={`${colors.bg} ${colors.text} inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 mb-3`}>
-                      <span className="text-sm">{categoryInfo?.icon}</span>
-                      <span className="text-xs font-semibold">
-                        {lesson.category}
-                      </span>
+                <div key={categorySlug}>
+                  {/* Category header */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`${colors.bg} w-9 h-9 rounded-lg flex items-center justify-center text-lg flex-shrink-0`}>
+                      {categoryInfo?.icon}
                     </div>
-
-                    {/* Lesson Name */}
-                    <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {lesson.name}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-sm text-slate-500 leading-relaxed line-clamp-2">
-                      {lesson.description}
-                    </p>
+                    <div>
+                      <h2 className="text-base font-bold text-slate-900">{categoryInfo?.name}</h2>
+                      <p className="text-xs text-slate-500">{lessons.length} lessons</p>
+                    </div>
                   </div>
-                </Link>
+
+                  {/* Lesson cards */}
+                  <div className="space-y-3">
+                    {lessons.map((lesson) => (
+                      <Link
+                        key={lesson.id}
+                        href={`/lessons/${lesson.id}`}
+                        className="group block"
+                      >
+                        <div className="bg-white rounded-lg px-5 py-4 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all">
+                          <h3 className="text-sm font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
+                            {lesson.name}
+                          </h3>
+                          <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
+                            {lesson.description}
+                          </p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               );
             })}
           </div>
