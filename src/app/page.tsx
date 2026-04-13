@@ -35,14 +35,14 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/lessons"
-              className="inline-flex items-center justify-center bg-slate-900 text-white font-semibold py-3 px-7 rounded-xl hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center justify-center bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-blue-700 transition-colors text-sm"
             >
               Browse Lessons
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
             <Link
               href="/auth"
-              className="inline-flex items-center justify-center bg-slate-100 text-slate-700 font-semibold py-3 px-7 rounded-xl hover:bg-slate-200 transition-colors"
+              className="inline-flex items-center justify-center border border-slate-300 text-slate-700 font-semibold py-2.5 px-6 rounded-lg hover:bg-slate-50 transition-colors text-sm"
             >
               Create Free Account
             </Link>
@@ -52,7 +52,7 @@ export default function Home() {
 
       {/* Quick stats row */}
       <section className="bg-slate-50 border-b border-slate-100">
-        <div className="max-w-4xl mx-auto px-6 py-8 grid grid-cols-3 gap-6 text-center">
+        <div className="max-w-3xl mx-auto px-6 py-8 grid grid-cols-3 gap-6 text-center">
           <div>
             <p className="text-2xl font-extrabold text-slate-900">150+</p>
             <p className="text-xs text-slate-500 font-medium mt-1">Curated Lessons</p>
@@ -69,7 +69,7 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="max-w-4xl mx-auto px-6 py-16">
+      <section className="max-w-3xl mx-auto px-6 py-16">
         <h2 className="text-2xl font-bold text-slate-900 text-center mb-10">
           How it works
         </h2>
@@ -108,12 +108,12 @@ export default function Home() {
 
       {/* Categories Grid */}
       <section className="bg-white border-t border-slate-100">
-        <div className="max-w-5xl mx-auto px-6 py-16">
+        <div className="max-w-3xl mx-auto px-6 py-16">
           <h2 className="text-2xl font-bold text-slate-900 text-center mb-10">
             Explore by category
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {categories.map((category) => {
               const colors = colorMap[category.color] || colorMap.blue;
               return (
@@ -122,7 +122,7 @@ export default function Home() {
                   href={`/lessons?category=${category.slug}`}
                   className="group"
                 >
-                  <div className="card-hover rounded-xl p-5 border border-slate-150 h-full cursor-pointer bg-white hover:border-slate-200">
+                  <div className="card-hover rounded-lg p-5 border border-slate-200 shadow-sm h-full cursor-pointer bg-white hover:shadow-md hover:border-slate-300">
                     <div className="flex items-center gap-3 mb-3">
                       <div className={`${colors.bg} w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0`}>
                         {category.icon}
@@ -158,7 +158,7 @@ export default function Home() {
           </p>
           <Link
             href="/lessons"
-            className="inline-flex items-center justify-center bg-slate-900 text-white font-semibold py-3 px-7 rounded-xl hover:bg-slate-800 transition-colors"
+            className="inline-flex items-center justify-center bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-blue-700 transition-colors text-sm"
           >
             Start Exploring
             <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
